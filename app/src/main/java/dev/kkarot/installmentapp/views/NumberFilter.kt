@@ -1,0 +1,37 @@
+package dev.kkarot.installmentapp.views
+
+import android.text.InputFilter
+import android.text.Spanned
+
+
+class NumberFilter:InputFilter {
+    var min:Int
+    var max:Int
+    constructor(min:Int,max:Int){
+        this.max = max
+        this.min = min
+    }
+    constructor(min:String,max:String){
+        this.max = max.toInt()
+        this.min = min.toInt()
+    }
+    override fun filter(
+        source: CharSequence?,
+        start: Int,
+        end: Int,
+        dest: Spanned?,
+        dstart: Int,
+        dend: Int
+    ): CharSequence? {
+        try {
+            val input = (dest.toString() + source.toString()).toInt()
+            if (isInRange(min, max, input))
+                return null
+        } catch (nfe: NumberFormatException) {
+        }
+        return ""
+    }
+    private fun isInRange(a: Int, b: Int, c: Int): Boolean {
+        return if (b > a) c in a..b else c in b..a
+    }
+}
