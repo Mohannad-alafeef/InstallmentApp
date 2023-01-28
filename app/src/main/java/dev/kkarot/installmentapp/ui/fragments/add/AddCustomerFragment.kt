@@ -1,4 +1,4 @@
-package dev.kkarot.installmentapp.ui.fragments
+package dev.kkarot.installmentapp.ui.fragments.add
 
 import android.os.Bundle
 import android.util.Log
@@ -9,18 +9,17 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
-import dagger.hilt.android.AndroidEntryPoint
 import dev.kkarot.installmentapp.R
 import dev.kkarot.installmentapp.database.models.CustomerInfo
 import dev.kkarot.installmentapp.databinding.FragmentAddCustomerBinding
-import dev.kkarot.installmentapp.viewmodels.SharedViewModel
+import dev.kkarot.installmentapp.viewmodels.SharedDataBase
 import java.util.*
 
 private const val TAG = "---AddCustomerFragment"
 class AddCustomerFragment : Fragment() {
 
     private lateinit var binding: FragmentAddCustomerBinding
-    private val sharedViewModel: SharedViewModel by activityViewModels()
+    private val sharedDataBase: SharedDataBase by activityViewModels()
 
     var isError = false
 
@@ -34,6 +33,12 @@ class AddCustomerFragment : Fragment() {
 
 
         binding.apply {
+
+//            customerName.editText?.filters = arrayOf(LengthFilter(50))
+//            customerPhone.editText?.filters = arrayOf(LengthFilter(20))
+//            customerAddress.editText?.filters = arrayOf(LengthFilter(50))
+
+
             toolbar.setupWithNavController(findNavController())
             addCustomer.setOnClickListener {
                 isError = false
@@ -70,7 +75,7 @@ class AddCustomerFragment : Fragment() {
     private fun addCustomer(name: String, phone: String, address: String): CustomerInfo {
         Log.d(TAG, "addCustomer: yes ")
         val customerInfo = CustomerInfo(0, name, phone, address, Date())
-        sharedViewModel.addCustomer(customerInfo)
+        sharedDataBase.addCustomer(customerInfo)
         return customerInfo
     }
 

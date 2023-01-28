@@ -19,14 +19,15 @@
             app:exitAnim="@anim/slide_out_right"
             />
         <action
-            android:id="@+id/action_homeFragment_to_customerDetailsFragment"
-            app:destination="@id/customerDetailsFragment"
+            android:id="@+id/action_homeFragment_to_customerInfoFragment"
+            app:destination="@id/customerInfoFragment"
             app:enterAnim="@android:anim/slide_in_left"
             app:popEnterAnim="@android:anim/slide_in_left" />
+
     </fragment>
     <fragment
         android:id="@+id/addCustomerFragment"
-        android:name="dev.kkarot.installmentapp.ui.fragments.AddCustomerFragment"
+        android:name="dev.kkarot.installmentapp.ui.fragments.add.AddCustomerFragment"
         android:label="@string/customer_info"
         tools:layout="@layout/fragment_add_customer" >
         <action
@@ -36,26 +37,43 @@
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
-        android:id="@+id/customerDetailsFragment"
-        android:name="dev.kkarot.installmentapp.ui.fragments.CustomerDetailsFragment"
-        android:label="fragment_details"
+        android:id="@+id/customerInfoFragment"
+        android:name="dev.kkarot.installmentapp.ui.fragments.info.CustomerInfoFragment"
+        android:label="@string/customer_info"
         tools:layout="@layout/fragment_customer_details" >
-        <argument
-            android:name="customer_info"
-            app:argType="dev.kkarot.installmentapp.database.models.CustomerInfo"
-            app:nullable="false" />
+
         <action
-            android:id="@+id/action_customerDetailsFragment_to_addInstallmentFragment"
+            android:id="@+id/action_customerInfoFragment_to_addInstallmentFragment"
             app:destination="@id/addInstallmentFragment"
             app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_customerInfoFragment_to_paymentsFragment"
+            app:destination="@id/paymentsFragment" />
     </fragment>
     <fragment
         android:id="@+id/addInstallmentFragment"
-        android:name="dev.kkarot.installmentapp.ui.fragments.AddInstallmentFragment"
-        android:label="fragment_add_installment"
-        tools:layout="@layout/fragment_add_installment" >
-        <argument
-            android:name="customerInfo"
-            app:argType="dev.kkarot.installmentapp.database.models.CustomerInfo" />
+        android:name="dev.kkarot.installmentapp.ui.fragments.add.AddInstallmentFragment"
+        android:label="@string/installment_details"
+        tools:layout="@layout/fragment_add_installment">
+
+        <action
+            android:id="@+id/action_addInstallmentFragment_to_addPaymentsFragment"
+            app:destination="@id/addPaymentsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/addPaymentsFragment"
+        android:name="dev.kkarot.installmentapp.ui.fragments.add.AddPaymentsFragment"
+        android:label="@string/payment_details"
+        tools:layout="@layout/fragment_add_payments" >
+        <action
+            android:id="@+id/action_addPaymentsFragment_to_customerInfoFragment"
+            app:destination="@id/customerInfoFragment"
+            app:popUpTo="@id/customerInfoFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/paymentsFragment"
+        android:name="dev.kkarot.installmentapp.ui.fragments.info.PaymentsFragment"
+        android:label="fragment_payments"
+        tools:layout="@layout/fragment_payments" />
 </navigation>

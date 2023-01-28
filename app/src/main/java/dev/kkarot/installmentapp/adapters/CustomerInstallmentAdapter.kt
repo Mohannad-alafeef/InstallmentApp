@@ -6,24 +6,33 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.kkarot.installmentapp.database.models.InstallmentInfo
 import dev.kkarot.installmentapp.databinding.CustomerInstallmentBinding
 import java.text.SimpleDateFormat
+import java.util.*
 
-class CustomerInstallmentAdapter(private var installmentList: List<InstallmentInfo>) :
+class CustomerInstallmentAdapter(
+    private var installmentList: List<InstallmentInfo>,
+    val onLongClick: (InstallmentInfo, Int) -> Unit,
+    val onClick: (Long) -> Unit
+) :
     RecyclerView.Adapter<CustomerInstallmentAdapter.ItemHolder>() {
 
-    private val formatter = SimpleDateFormat("yyyy-MM-dd")
+    private val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 
     inner class ItemHolder(private val binding: CustomerInstallmentBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(p: Int) {
             binding.apply {
                 title.text = installmentList[p].installmentTitle
-                start.text = formatter.format(installmentList[p].startDate)
-                end.text = formatter.format(installmentList[p].endDate)
-                due.text = installmentList[p].payments.paymentList.size.toString()
-                received.text = installmentList[p].payments.paymentList
-                    .filter {
-                        it.isPaid
-                    }.size.toString()
+                start.text = formatter.format(installmentList[p].startDate!!)
+                end.text = formatter.format(installmentList[p].endDate!!)
+                received.text = installmentList[p].received.toString()
+                due.text = installmentList[p].period.toString()
+                container.setOnLongClickListener {
+                    onLongClick.invoke(installmentList[p],p)
+                    false
+                }
+                container.setOnClickListener {
+                    onClick.invoke(installmentList[p].installmentId)
+                }
             }
         }
     }
@@ -37,4 +46,7 @@ class CustomerInstallmentAdapter(private var installmentList: List<InstallmentIn
     }
 
     override fun getItemCount(): Int = installmentList.size
+    fun remove(pos: Int) {
+        notifyItemRemoved(pos)
+    }
 }

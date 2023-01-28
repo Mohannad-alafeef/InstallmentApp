@@ -10,15 +10,15 @@ import kotlinx.parcelize.Parcelize
 import java.util.Date
 
 @Parcelize
-@Entity(tableName = "CustomerInfo")
+@Entity(tableName = "CustomerTable")
 @TypeConverters(MyConverter::class)
 data class CustomerInfo(
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "customer_id")
-    val customerId:Long,
-    @ColumnInfo(name = "customer_name") val customerName:String,
-    @ColumnInfo(name = "customer_phone") val customerPhone:String,
-    @ColumnInfo(name = "customer_address") val customerAddress:String,
-    @ColumnInfo(name = "add_date")
-    val addDate: Date
+    @ColumnInfo(name = "customerId")
+    var customerId:Long,
+    @ColumnInfo(name = "customerName") var customerName:String,
+    @ColumnInfo(name = "customerPhone") var customerPhone:String,
+    @ColumnInfo(name = "customerAddress") var customerAddress:String,
+    @ColumnInfo(name = "addDate")
+    var addDate: Date
 ): Parcelable

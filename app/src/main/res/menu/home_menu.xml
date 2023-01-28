@@ -2,10 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:title="settings"
-        app:showAsAction="ifRoom|collapseActionView"
-        android:orderInCategory="1"
+    <item android:id="@+id/settingFragment"
+        android:title="Settings"
         android:icon="@drawable/ic_baseline_settings_24"
+        />
+    <item android:id="@+id/analyticsFragment"
+        android:title="Analytics"
+        android:icon="@drawable/ic_baseline_analytics_24"
+        />
+    <item android:id="@+id/toolFragment"
+        android:title="Tools"
+        android:icon="@drawable/ic_baseline_perm_data_setting_24"
         />
 
     <item

@@ -12,4 +12,21 @@
     <string name="save">save</string>
     <string name="customers">Customers</string>
     <string name="customer_info">Customer Information</string>
+    <string name="next">Next</string>
+    <string name="total_price">Total Price</string>
+    <string name="total_profit">Total Profit</string>
+    <string name="profit_rate">profit rate %</string>
+    <string name="original_price">Original Price</string>
+    <string name="title">Title</string>
+    <string name="delete">Delete</string>
+    <string name="payment_value">Payment Value</string>
+    <string name="first_payment_date">First Payment Date </string>
+    <string name="installment_details">Installment Details</string>
+    <string name="payment_details">Payment Details</string>
+    <string name="payment">Payment</string>
+    <string name="payment_amount">Payment Amount</string>
+    <string name="payment_date">Payment Date</string>
+    <string name="edit_date">Edit Date</string>
+    <string name="payment_state">Payment State</string>
+    <string name="received">Received</string>
 </resources>

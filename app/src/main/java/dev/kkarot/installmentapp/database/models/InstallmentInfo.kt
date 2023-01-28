@@ -10,35 +10,41 @@ import kotlinx.parcelize.Parcelize
 import java.util.Date
 
 @Parcelize
-@Entity(tableName = "InstallmentInfo")
+@Entity(tableName = "InstallmentTable")
 @TypeConverters(MyConverter::class)
 data class InstallmentInfo(
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "installment_id")
-    val id:Long,
-    @ColumnInfo(name = "customer_id")
-    val customerId:Long,
-    @ColumnInfo(name = "installment_title")
-    val installmentTitle:String,
-    @ColumnInfo(name = "original_price")
-    val originalPrice:Float,
-    @ColumnInfo(name = "installment_rate")
-    val installmentRate:Int,
+    @ColumnInfo(name = "installmentId")
+    var installmentId:Long,
+    @ColumnInfo(name = "customerId")
+    var customerId:Long,
+    @ColumnInfo(name = "installmentTitle")
+    var installmentTitle:String,
+    @ColumnInfo(name = "originalPrice")
+    var originalPrice:Float,
+    @ColumnInfo(name = "profitRate")
+    var profitRate:Int,
     @ColumnInfo(name = "profit")
-    val profit:Float,
-    @ColumnInfo(name = "total_price")
-    val totalPrice:Float,
-    @ColumnInfo(name = "start_date")
-    val startDate:Date,
-    @ColumnInfo(name = "end_Date")
-    val endDate:Date,
-    @ColumnInfo(name = "installment_type")
-    val installmentType:String,
+    var profit:Float,
+    @ColumnInfo(name = "totalPrice")
+    var totalPrice:Float,
+    @ColumnInfo(name = "startDate")
+    var startDate:Date? = null ,
+    @ColumnInfo(name = "endDate")
+    var endDate:Date? = null,
+    @ColumnInfo(name = "paymentType")
+    var paymentType:String = "",
+    @ColumnInfo(name = "period")
+    var period:Int = 0,
+    @ColumnInfo(name = "received")
+    var received:Int = 0,
+    @ColumnInfo(name = "totalReceived")
+    var totalReceived:Int = 0,
     @ColumnInfo(name = "payment")
-    val payment:Float,
+    var payment:Float = 0f,
     @ColumnInfo(name = "reminder")
-    val reminder:Float,
-    @ColumnInfo(name = "payments")
-    val payments:Payments
+    var reminder:Float = 0f,
+    @ColumnInfo(name = "prePayment")
+    var prePayment:Float = 0f
 
 ): Parcelable

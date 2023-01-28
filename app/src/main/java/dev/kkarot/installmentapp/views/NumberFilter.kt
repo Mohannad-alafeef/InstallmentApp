@@ -27,7 +27,8 @@ class NumberFilter:InputFilter {
             val input = (dest.toString() + source.toString()).toInt()
             if (isInRange(min, max, input))
                 return null
-        } catch (nfe: NumberFormatException) {
+        } catch (_: NumberFormatException) {
+
         }
         return ""
     }

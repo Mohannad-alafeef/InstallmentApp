@@ -1,19 +1,18 @@
 package dev.kkarot.installmentapp.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import dev.kkarot.installmentapp.database.models.CustomerInfo
 import dev.kkarot.installmentapp.databinding.CustomerInfoItemBinding
-import dev.kkarot.installmentapp.ui.fragments.HomeFragmentDirections
-import java.text.SimpleDateFormat
-import java.util.*
 
 private const val TAG = "---HomeAdapter"
 
-class HomeAdapter(private var list: List<CustomerInfo>) :
+class HomeAdapter(
+    private var list: List<CustomerInfo>,
+    val onItemClick: (CustomerInfo) -> Unit,
+    val onItemLongClick: (CustomerInfo,Int) -> Unit
+) :
     RecyclerView.Adapter<HomeAdapter.ItemHolder>() {
     inner class ItemHolder(private val binding: CustomerInfoItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -21,12 +20,12 @@ class HomeAdapter(private var list: List<CustomerInfo>) :
             binding.apply {
                 name.text = list[p].customerName
                 holder.setName(list[p].customerName)
-
-                infoContainer.setOnClickListener { container ->
-                    HomeFragmentDirections.actionHomeFragmentToCustomerDetailsFragment(list[p])
-                        .let { direction ->
-                            container.findNavController().navigate(direction)
-                        }
+                infoContainer.setOnClickListener {
+                    onItemClick.invoke(list[p])
+                }
+                infoContainer.setOnLongClickListener {
+                    onItemLongClick.invoke(list[p],p)
+                    return@setOnLongClickListener true
                 }
             }
 
@@ -49,5 +48,10 @@ class HomeAdapter(private var list: List<CustomerInfo>) :
         this.list = list
         notifyItemRangeInserted(0, list.size)
 
+    }
+
+    fun remove(list: List<CustomerInfo>, pos: Int) {
+        this.list = list
+        notifyItemRemoved(pos)
     }
 }

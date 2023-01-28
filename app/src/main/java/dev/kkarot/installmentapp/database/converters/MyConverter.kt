@@ -2,8 +2,9 @@ package dev.kkarot.installmentapp.database.converters
 
 import androidx.room.TypeConverter
 import com.google.gson.Gson
-import dev.kkarot.installmentapp.database.models.Payments
 import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.List
 
 class MyConverter {
 
@@ -15,12 +16,5 @@ class MyConverter {
     fun toTimeStamp(date: Date):Long{
         return date.time
     }
-    @TypeConverter
-    fun fromClothingToJSON(payments: Payments): String {
-        return Gson().toJson(payments)
-    }
-    @TypeConverter
-    fun fromJSONToClothing(json: String): Payments {
-        return Gson().fromJson(json,Payments::class.java)
-    }
+
 }

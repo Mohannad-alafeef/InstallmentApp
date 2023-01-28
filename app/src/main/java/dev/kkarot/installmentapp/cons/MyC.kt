@@ -1,8 +1,14 @@
 package dev.kkarot.installmentapp.cons
 
-object InstallmentType {
-    const val annually="Annually"
-    const val monthly = "Monthly"
-    const val weekly = "Weekly"
-    const val daily="Daily"
+enum class InstallmentType {
+    Annually,
+    Monthly,
+    Weekly,
+    Daily
+}
+
+enum class PaymentOpt{
+    Fraction,
+    FirstPayment,
+    LastPayment
 }
