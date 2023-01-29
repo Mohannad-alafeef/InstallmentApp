@@ -21,4 +21,7 @@ interface PaymentDao {
 
     @Update
     suspend fun updatePayment(info: PaymentInfo)
+
+    @Update
+    suspend fun updatePayments(paymentInfoList: List<PaymentInfo>)
 }

@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.BaseTransientBottomBar
+import com.google.android.material.snackbar.Snackbar
 import dev.kkarot.installmentapp.adapters.PaymentsAdapter
 import dev.kkarot.installmentapp.database.models.PaymentInfo
 import dev.kkarot.installmentapp.databinding.FragmentPaymentsBinding
@@ -54,11 +56,27 @@ class PaymentsFragment : Fragment() {
     }
 
     private val onLongClick: (PaymentInfo,Int) -> Unit = { info,pos ->
-        val sheet = PaymentSheet(info,onReceivedClick,pos)
-        sheet.show(childFragmentManager,PaymentSheet.TAG)
+        if (!info.isPaid) {
+            val sheet = PaymentSheet(info, onReceivedClick, pos)
+            sheet.show(childFragmentManager, PaymentSheet.TAG)
+        }
 
     }
     private val onReceivedClick:(PaymentInfo,Int)->Unit ={info,pos ->
+        val snackbar = Snackbar.make(
+            binding.root,
+            "Payment $pos Received",
+            Snackbar.LENGTH_LONG
+        )
+        snackbar.setAction("Undo"){
+            info.isPaid = false
+            updateValues(info, pos)
+        }
+        snackbar.show()
+        updateValues(info,pos)
+    }
+
+    private fun updateValues(info: PaymentInfo, pos: Int) {
         sharedDatabase.updatePayment(info)
         paymentsAdapter.changeState(pos)
     }

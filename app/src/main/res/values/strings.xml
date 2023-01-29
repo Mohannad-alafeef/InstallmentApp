@@ -29,4 +29,8 @@
     <string name="edit_date">Edit Date</string>
     <string name="payment_state">Payment State</string>
     <string name="received">Received</string>
+    <string name="payment_received">Payment Received</string>
+    <string name="delete_completed">Delete Complete</string>
+    <string name="from_total">From Total</string>
+    <string name="from_payments">From Payments</string>
 </resources>

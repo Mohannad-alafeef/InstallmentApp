@@ -43,7 +43,7 @@ class PaymentsAdapter(val list: ArrayList<PaymentInfo>, val onLongClick: (Paymen
 
     override fun getItemCount(): Int= list.size
     fun changeState(pos: Int) {
-        this.list[pos].isPaid = true
+      //  this.list[pos].isPaid = true
         notifyItemRemoved(pos)
         notifyItemInserted(pos)
     }

@@ -39,7 +39,7 @@ data class InstallmentInfo(
     @ColumnInfo(name = "received")
     var received:Int = 0,
     @ColumnInfo(name = "totalReceived")
-    var totalReceived:Int = 0,
+    var totalReceived:Float = 0f,
     @ColumnInfo(name = "payment")
     var payment:Float = 0f,
     @ColumnInfo(name = "reminder")

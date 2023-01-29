@@ -12,3 +12,7 @@ enum class PaymentOpt{
     FirstPayment,
     LastPayment
 }
+enum class DeductType{
+    FromTotal,
+    FromPayments
+}

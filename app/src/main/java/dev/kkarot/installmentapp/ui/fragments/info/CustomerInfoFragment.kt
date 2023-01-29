@@ -1,6 +1,8 @@
 package dev.kkarot.installmentapp.ui.fragments.info
 
+import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,9 +11,12 @@ import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import dev.kkarot.installmentapp.R
 import dev.kkarot.installmentapp.adapters.CustomerInstallmentAdapter
+import dev.kkarot.installmentapp.cons.DeductType
 import dev.kkarot.installmentapp.database.models.InstallmentInfo
 import dev.kkarot.installmentapp.databinding.FragmentCustomerDetailsBinding
+import dev.kkarot.installmentapp.databinding.ReceivedDeialogBinding
 import dev.kkarot.installmentapp.viewmodels.SharedData
 import dev.kkarot.installmentapp.viewmodels.SharedDataBase
 import dev.kkarot.installmentapp.views.bottomsheets.InstallmentSheet
@@ -89,15 +94,39 @@ class CustomerInfoFragment : Fragment() {
         }
     }
     private val onLongClick:(InstallmentInfo,Int)->Unit ={ installmentInfo, pos ->
-        val sheet = InstallmentSheet(installmentInfo,pos,onDelete)
+        val sheet = InstallmentSheet(installmentInfo,pos,onDelete,onPaymentReceived)
         sheet.show(childFragmentManager,InstallmentSheet.TAG)
     }
     private val onDelete:(InstallmentInfo,Int)->Unit = { info , pos ->
         sharedDataBase.deleteInstallment(info){
             instList.removeAt(pos)
             installmentAdapter.remove(pos)
-            Toast.makeText(requireContext(), "Delete Complete", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), getString(R.string.delete_completed), Toast.LENGTH_SHORT).show()
         }
+    }
+    private val onPaymentReceived:(InstallmentInfo)->Unit={info ->
+        val dialogBinding:ReceivedDeialogBinding = ReceivedDeialogBinding.inflate(layoutInflater)
+        val dialogBuilder = AlertDialog.Builder(requireContext())
+        dialogBuilder.setTitle(getString(R.string.payment_received))
+        dialogBuilder.setNegativeButton(getString(R.string.cancel)
+        ) { d, _ ->
+            d.dismiss()
+        }
+        dialogBuilder.setPositiveButton(getString(R.string.add)){_,_->
+            dialogBinding.apply {
+            val editText = paymentAmount.editText
+                if (editText?.text.isNullOrEmpty())
+                    editText?.error = getString(R.string.required_field)
+                else {
+                    val amount =editText?.text.toString().toFloat()
+                    sharedDataBase.addReceived(info,amount)
+                }
+            }
+        }
+        dialogBuilder.setView(dialogBinding.root)
+        dialogBuilder.create().show()
+
+
     }
 
 

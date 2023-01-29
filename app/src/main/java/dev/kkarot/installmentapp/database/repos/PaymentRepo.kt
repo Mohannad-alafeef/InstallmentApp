@@ -63,4 +63,8 @@ class PaymentRepo @Inject constructor(private val paymentDao: PaymentDao) {
     suspend fun updatePayment(info: PaymentInfo) = withContext(Dispatchers.IO) {
         paymentDao.updatePayment(info)
     }
+
+    suspend fun updatePayments(it: List<PaymentInfo>) = withContext(Dispatchers.IO) {
+        paymentDao.updatePayments(it)
+    }
 }

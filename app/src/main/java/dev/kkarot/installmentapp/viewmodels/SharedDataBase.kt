@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.kkarot.installmentapp.cons.DeductType
 import dev.kkarot.installmentapp.cons.PaymentOpt
 import dev.kkarot.installmentapp.database.models.CustomerInfo
 import dev.kkarot.installmentapp.database.models.InstallmentInfo
@@ -15,6 +16,7 @@ import dev.kkarot.installmentapp.database.repos.PaymentRepo
 import kotlinx.coroutines.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
+import kotlin.math.absoluteValue
 
 @HiltViewModel
 class SharedDataBase @Inject constructor(
@@ -26,7 +28,8 @@ class SharedDataBase @Inject constructor(
     private val _infoLiveData: MutableLiveData<ArrayList<CustomerInfo>> = MutableLiveData()
     val infoLiveData: LiveData<ArrayList<CustomerInfo>> = _infoLiveData
 
-    private val _customerInstallments: MutableLiveData<ArrayList<InstallmentInfo>> = MutableLiveData()
+    private val _customerInstallments: MutableLiveData<ArrayList<InstallmentInfo>> =
+        MutableLiveData()
     val customerInstallments: LiveData<ArrayList<InstallmentInfo>> = _customerInstallments
 
     private val _instPaymentList: MutableLiveData<ArrayList<PaymentInfo>> = MutableLiveData()
@@ -78,7 +81,7 @@ class SharedDataBase @Inject constructor(
             if (installmentId > 0) {
 
                 installmentInfo.installmentId = installmentId
-                val paymentIds = paymentRepo.insertPayments(installmentInfo,paymentOpt)
+                val paymentIds = paymentRepo.insertPayments(installmentInfo, paymentOpt)
 
                 if (paymentIds.size == installmentInfo.period) {
                     function.invoke()
@@ -87,9 +90,9 @@ class SharedDataBase @Inject constructor(
         }
     }
 
-    fun getInstPayments(id:Long){
+    fun getInstPayments(id: Long) {
         viewModelScope.launch {
-           _instPaymentList.value =  paymentRepo.getPayments(id) as ArrayList<PaymentInfo>
+            _instPaymentList.value = paymentRepo.getPayments(id) as ArrayList<PaymentInfo>
         }
     }
 
@@ -112,7 +115,7 @@ class SharedDataBase @Inject constructor(
         }
     }
 
-    fun deleteInstallment(info: InstallmentInfo,onComplete: () -> Unit){
+    fun deleteInstallment(info: InstallmentInfo, onComplete: () -> Unit) {
         viewModelScope.launch {
             installmentRepo.deleteInstallment(info.installmentId)
             paymentRepo.deletePayments(info.installmentId)
@@ -123,6 +126,51 @@ class SharedDataBase @Inject constructor(
     fun updatePayment(info: PaymentInfo) {
         viewModelScope.launch {
             paymentRepo.updatePayment(info)
+            when (info.isPaid) {
+                true -> {
+                    installmentRepo.updateInstallment(info.installmentId, 1)
+                }
+                false -> {
+                    installmentRepo.updateInstallment(info.installmentId, -1)
+                }
+            }
+        }
+    }
+
+    fun addReceived(info: InstallmentInfo, amount: Float) {
+        viewModelScope.launch {
+            paymentRepo.getPayments(info.installmentId)
+                .filter { paymentInfo ->
+                    !paymentInfo.isPaid
+                }.let { paymentList ->
+                    getReceivedPayments(amount, paymentList) { newList->
+                        launch {
+                            paymentRepo.updatePayments(newList)
+                            info.totalReceived = amount
+                            info.received = paymentRepo.getPayments(info.installmentId).filter { it.isPaid }.size
+                            installmentRepo.updateInstallment(info)
+                            getCustomerInstallments(info.customerId)
+                        }
+                    }
+                }
+        }
+    }
+
+    private fun getReceivedPayments(
+        amount: Float,
+        list: List<PaymentInfo>,
+        function: (List<PaymentInfo>) -> Unit
+    ) {
+        var sub = amount
+        for (index in list.indices) {
+            sub -= list[index].value
+            if (sub >= 0) {
+                list[index].isPaid = true
+            } else {
+                list[index].value = sub.absoluteValue
+                function.invoke(list)
+                return
+            }
         }
     }
 

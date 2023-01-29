@@ -1,11 +1,10 @@
 package dev.kkarot.installmentapp.database.repos
 
+import dev.kkarot.installmentapp.cons.DeductType
 import dev.kkarot.installmentapp.database.dao.InstallmentDao
 import dev.kkarot.installmentapp.database.models.InstallmentInfo
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
-import java.util.*
 import javax.inject.Inject
 
 class InstallmentRepo @Inject constructor(private val dao: InstallmentDao) {
@@ -23,6 +22,18 @@ class InstallmentRepo @Inject constructor(private val dao: InstallmentDao) {
         }
 
     suspend fun deleteInstallment(id: Long) =
-        withContext(Dispatchers.IO) { dao.deleteInstallment(id) }
+        withContext(Dispatchers.IO) {
+            dao.deleteInstallment(id)
+        }
+
+    suspend fun updateInstallment(id: Long, update: Int) = withContext(Dispatchers.IO){
+       val installment = dao.getInstallment(id)
+        installment.received +=update
+        dao.updateInstallment(installment)
+    }
+    suspend fun updateInstallment(info: InstallmentInfo) = dao.updateInstallment(info)
+
+
+
 
 }
