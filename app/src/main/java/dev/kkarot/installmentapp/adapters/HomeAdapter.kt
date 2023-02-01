@@ -27,6 +27,9 @@ class HomeAdapter(
                     onItemLongClick.invoke(list[p],p)
                     return@setOnLongClickListener true
                 }
+                editCustomer.setOnClickListener {
+                    onItemLongClick.invoke(list[p],p)
+                }
             }
 
         }

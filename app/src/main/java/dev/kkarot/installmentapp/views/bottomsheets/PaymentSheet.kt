@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import dev.kkarot.installmentapp.R
 import dev.kkarot.installmentapp.database.models.PaymentInfo
 import dev.kkarot.installmentapp.databinding.PaymentSheetBinding
 
@@ -23,11 +24,16 @@ class PaymentSheet(
         binding = PaymentSheetBinding.inflate(inflater,container,false)
 
         binding.apply {
+            receivedBtn.text = if (info.isPaid){
+                getString(R.string.unreceived)
+            }else{
+                getString(R.string.received)
+            }
             cancel.setOnClickListener {
                 dismiss()
             }
             receivedBtn.setOnClickListener {
-                info.isPaid = true
+                info.isPaid = !info.isPaid
                 onReceivedClick.invoke(info,pos)
                 dismiss()
             }

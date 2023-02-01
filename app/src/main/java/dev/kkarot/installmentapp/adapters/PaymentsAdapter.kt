@@ -26,6 +26,9 @@ class PaymentsAdapter(val list: ArrayList<PaymentInfo>, val onLongClick: (Paymen
                     onLongClick.invoke(list[p],p)
                     true
                 }
+                editInstallment.setOnClickListener {
+                    onLongClick.invoke(list[p],p)
+                }
             }
         }
     }

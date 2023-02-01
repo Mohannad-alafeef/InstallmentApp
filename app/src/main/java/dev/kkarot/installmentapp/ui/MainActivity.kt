@@ -15,7 +15,7 @@ import dev.kkarot.installmentapp.viewmodels.SharedDataBase
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val sharedDataBase: SharedDataBase by viewModels()
-    private val sharedData:SharedData by viewModels()
+    private val sharedData: SharedData by viewModels()
     private lateinit var navHostFragment: NavHostFragment
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         navHostFragment =
             (supportFragmentManager.findFragmentById(binding.fragmentContainerView.id) as NavHostFragment)
-              sharedDataBase.onActivity()
+
     }
 
     override fun onSupportNavigateUp(): Boolean {

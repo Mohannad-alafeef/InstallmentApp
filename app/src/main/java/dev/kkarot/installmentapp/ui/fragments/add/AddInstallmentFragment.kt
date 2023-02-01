@@ -12,9 +12,9 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
+import dev.kkarot.installmentapp.R
 import dev.kkarot.installmentapp.database.models.CustomerInfo
 import dev.kkarot.installmentapp.database.models.InstallmentInfo
-import dev.kkarot.installmentapp.databinding.DialogProgressBinding
 import dev.kkarot.installmentapp.databinding.FragmentAddInstallmentBinding
 import dev.kkarot.installmentapp.viewmodels.SharedData
 import dev.kkarot.installmentapp.views.NumberFilter
@@ -38,8 +38,6 @@ class AddInstallmentFragment : Fragment() {
     private var pRate = 0
 
 
-
-
     @SuppressLint("SetTextI18n")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,7 +45,7 @@ class AddInstallmentFragment : Fragment() {
     ): View {
         binding = FragmentAddInstallmentBinding.inflate(layoutInflater, container, false)
 
-        sharedData.selectedCustomer.observe(viewLifecycleOwner){
+        sharedData.selectedCustomer.observe(viewLifecycleOwner) {
             info = it
         }
 
@@ -99,29 +97,21 @@ class AddInstallmentFragment : Fragment() {
 
         binding.apply {
             nextBtn.setOnClickListener {
-                if (!title.editText?.text.isNullOrEmpty() && !originalPrice.editText?.text.isNullOrEmpty() &&
-                    !profitRate.editText?.text.isNullOrEmpty()
-                ) {
-
-                    val installmentInfo = InstallmentInfo(
-                        0,
-                        info.customerId,
-                        iTitle,
-                        oPrice,
-                        pRate,
-                        profit,
-                        total.toFloat()
-                    )
-                    sharedData.setInstallment(installmentInfo)
-                    AddInstallmentFragmentDirections.actionAddInstallmentFragmentToAddPaymentsFragment().let { navDir ->
+                if (checkError()) return@setOnClickListener
+                val installmentInfo = InstallmentInfo(
+                    0,
+                    info.customerId,
+                    iTitle,
+                    oPrice,
+                    pRate,
+                    profit,
+                    total.toFloat()
+                )
+                sharedData.setInstallment(installmentInfo)
+                AddInstallmentFragmentDirections.actionAddInstallmentFragmentToAddPaymentsFragment()
+                    .let { navDir ->
                         findNavController().navigate(navDir)
                     }
-
-
-                } else {
-                    Toast.makeText(requireContext(), "please fill all fields", Toast.LENGTH_SHORT)
-                        .show()
-                }
             }
 
         }
@@ -130,21 +120,34 @@ class AddInstallmentFragment : Fragment() {
         return binding.root
     }
 
-    private fun showSavingDialog(): AlertDialog {
-        val d = AlertDialog.Builder(requireContext()).run {
-            setView(DialogProgressBinding.inflate(layoutInflater).root)
-            setCancelable(false)
+    private fun checkError(): Boolean {
+        var isError = false
+        if (iTitle.isEmpty()) {
+            binding.title.error = getString(R.string.required_field)
+            isError = true
+        }else
+            binding.title.error = null
 
-        }.create()
-        d.show()
-        return d
+        if (binding.originalPrice.editText?.text.isNullOrEmpty()) {
+            binding.originalPrice.error = getString(R.string.required_field)
+            isError = true
+        }else
+            binding.originalPrice.error = null
+
+        if (binding.profitRate.editText?.text.isNullOrEmpty()) {
+            binding.profitRate.error = getString(R.string.required_field)
+            isError = true
+        }else
+            binding.profitRate.error = null
+        return isError
     }
+
+
 
     private fun resetText() {
         binding.totalPrice.text = "0"
         binding.totalProfit.text = "0"
     }
-
 
 
     private fun getProfit(_oPrice: String, _pRate: String): String {

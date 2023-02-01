@@ -12,7 +12,6 @@
         android:layout_margin="5dp"
         android:layout_height="wrap_content"
         app:cardCornerRadius="10dp"
-        app:cardElevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -30,7 +29,8 @@
                 android:src="@drawable/user"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:contentDescription="@string/user_avatar" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/customer_name"
@@ -68,22 +68,22 @@
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="phone" />
+                    android:text="@string/phone" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Address" />
+                    android:text="@string/address" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="installment count" />
+                    android:text="@string/installment_count" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Date" />
+                    android:text="@string/date" />
             </LinearLayout>
 
             <com.google.android.material.divider.MaterialDivider
@@ -155,7 +155,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:elevation="10dp"
-        android:text="add"
+        android:text="@string/add"
         app:icon="@drawable/ic_baseline_add_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

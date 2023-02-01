@@ -16,8 +16,10 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
+import dev.kkarot.installmentapp.R
 import dev.kkarot.installmentapp.cons.InstallmentType
 import dev.kkarot.installmentapp.cons.PaymentOpt
+import dev.kkarot.installmentapp.database.models.CustomerInfo
 import dev.kkarot.installmentapp.database.models.InstallmentInfo
 import dev.kkarot.installmentapp.databinding.FragmentAddPaymentsBinding
 import dev.kkarot.installmentapp.viewmodels.SharedData
@@ -59,6 +61,8 @@ class AddPaymentsFragment : Fragment() {
     private var isFraction = false
     private var paymentOpt: PaymentOpt = PaymentOpt.FirstPayment
 
+    private lateinit var customer:CustomerInfo
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -66,9 +70,13 @@ class AddPaymentsFragment : Fragment() {
     ): View {
         binding = FragmentAddPaymentsBinding.inflate(layoutInflater, container, false)
 
+
         sharedData.selectedInstallment.observe(viewLifecycleOwner) { info ->
             this.info = info
             info.paymentType = InstallmentType.Monthly.name
+        }
+        sharedData.selectedCustomer.observe(viewLifecycleOwner){customer ->
+            this.customer = customer
         }
 
 
@@ -145,6 +153,7 @@ class AddPaymentsFragment : Fragment() {
                 }
             }
             saveBtn.setOnClickListener {
+                if (checkError()) return@setOnClickListener
                 info.startDate = Date(sDate)
                 info.endDate = Date(eDate)
                 info.period = period.toInt()
@@ -152,20 +161,44 @@ class AddPaymentsFragment : Fragment() {
                 info.payment = payment
                 info.prePayment = prePaymentValue
 
-
-                sharedDatabase.insertInstallment(sharedData.selectedInstallment.value!!,paymentOpt) {
-                    Toast.makeText(requireContext(), "saved successfully", Toast.LENGTH_SHORT)
-                        .show()
-                    AddPaymentsFragmentDirections.actionAddPaymentsFragmentToCustomerInfoFragment()
-                        .let { navDir ->
-                            findNavController().navigate(navDir)
-                        }
+                if (customer.customerId == 0L){
+                    sharedDatabase.add(customer,sharedData.selectedInstallment.value!!,paymentOpt){
+                        sharedData.setCustomer(customer)
+                        navigate()
+                    }
+                }else{
+                    sharedDatabase.insertInstallment(sharedData.selectedInstallment.value!!,paymentOpt) {
+                        navigate()
+                    }
                 }
+
+
+
 
             }
         }
 
         return binding.root
+    }
+
+    private fun checkError(): Boolean {
+        var isError = false
+        if (binding.paymentPeriod.editText?.text.isNullOrEmpty()){
+            binding.paymentPeriod.error = getString(R.string.required_field)
+            isError = true
+        }else
+            binding.paymentPeriod.error = null
+
+        return isError
+    }
+
+    private fun navigate() {
+        Toast.makeText(requireContext(), getString(R.string.saved_successfully), Toast.LENGTH_SHORT)
+            .show()
+        AddPaymentsFragmentDirections.actionAddPaymentsFragmentToHomeFragment()
+            .let { navDir ->
+                findNavController().navigate(navDir)
+            }
     }
 
     private fun setPaymentOpt(id: Int) {

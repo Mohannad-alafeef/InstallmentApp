@@ -10,25 +10,24 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
         <dev.kkarot.installmentapp.views.PaymentState
             android:id="@+id/paymentState"
             android:layout_width="10dp"
             android:layout_height="0dp"
+            android:contentDescription="@string/payment_state"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:contentDescription="@string/payment_state" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
             android:id="@+id/linearLayout7"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:padding="5dp"
             android:orientation="vertical"
+            android:padding="5dp"
             app:layout_constraintStart_toEndOf="@+id/paymentState"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -56,8 +55,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:padding="5dp"
             android:orientation="vertical"
+            android:padding="5dp"
             app:layout_constraintStart_toEndOf="@+id/linearLayout7"
             app:layout_constraintTop_toTopOf="@+id/linearLayout7">
 
@@ -79,9 +78,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
-
-
         </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/edit_installment"
+            style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/trans_back"
+            app:icon="@drawable/cash2"
+            app:iconGravity="textEnd"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

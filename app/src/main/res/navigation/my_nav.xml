@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="dev.kkarot.installmentapp.ui.fragments.HomeFragment"
+        android:name="dev.kkarot.installmentapp.ui.fragments.info.HomeFragment"
         android:label="@string/customers"
         tools:layout="@layout/fragment_home">
         <action
@@ -35,6 +35,9 @@
             app:destination="@id/homeFragment"
             app:popUpTo="@id/homeFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_addCustomerFragment_to_addInstallmentFragment"
+            app:destination="@id/addInstallmentFragment" />
     </fragment>
     <fragment
         android:id="@+id/customerInfoFragment"
@@ -66,9 +69,9 @@
         android:label="@string/payment_details"
         tools:layout="@layout/fragment_add_payments" >
         <action
-            android:id="@+id/action_addPaymentsFragment_to_customerInfoFragment"
-            app:destination="@id/customerInfoFragment"
-            app:popUpTo="@id/customerInfoFragment"
+            android:id="@+id/action_addPaymentsFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment

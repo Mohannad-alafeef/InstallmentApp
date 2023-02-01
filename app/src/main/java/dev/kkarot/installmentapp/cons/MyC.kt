@@ -3,8 +3,7 @@ package dev.kkarot.installmentapp.cons
 enum class InstallmentType {
     Annually,
     Monthly,
-    Weekly,
-    Daily
+    Weekly
 }
 
 enum class PaymentOpt{

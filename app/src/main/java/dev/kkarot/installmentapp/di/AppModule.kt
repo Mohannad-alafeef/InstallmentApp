@@ -1,4 +1,4 @@
-package dev.kkarot.installmentapp.app
+package dev.kkarot.installmentapp.di
 
 import android.app.Application
 import androidx.room.Room

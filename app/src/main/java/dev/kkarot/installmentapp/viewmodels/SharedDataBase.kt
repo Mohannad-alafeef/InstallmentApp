@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.kkarot.installmentapp.cons.DeductType
 import dev.kkarot.installmentapp.cons.PaymentOpt
 import dev.kkarot.installmentapp.database.models.CustomerInfo
 import dev.kkarot.installmentapp.database.models.InstallmentInfo
@@ -39,7 +38,7 @@ class SharedDataBase @Inject constructor(
     val isDone: LiveData<Boolean> = _isDone
 
 
-    fun onActivity() {
+    fun onHome() {
         getCustomersInfo()
     }
 
@@ -123,15 +122,15 @@ class SharedDataBase @Inject constructor(
         }
     }
 
-    fun updatePayment(info: PaymentInfo) {
+    fun updatePayment(info: PaymentInfo,onComplete: (InstallmentInfo) -> Unit) {
         viewModelScope.launch {
             paymentRepo.updatePayment(info)
             when (info.isPaid) {
                 true -> {
-                    installmentRepo.updateInstallment(info.installmentId, 1)
+                    installmentRepo.updateInstallment(info.installmentId,info.value, 1).let(onComplete)
                 }
                 false -> {
-                    installmentRepo.updateInstallment(info.installmentId, -1)
+                    installmentRepo.updateInstallment(info.installmentId,info.value, -1).let(onComplete)
                 }
             }
         }
@@ -170,6 +169,16 @@ class SharedDataBase @Inject constructor(
                 list[index].value = sub.absoluteValue
                 function.invoke(list)
                 return
+            }
+        }
+    }
+
+    fun add(customerInfo: CustomerInfo, installmentInfo: InstallmentInfo, paymentOpt: PaymentOpt, function: () -> Unit) {
+        viewModelScope.launch {
+            customerRepo.insertCustomer(customerInfo).let {customerId->
+                customerInfo.customerId = customerId
+                installmentInfo.customerId = customerId
+                insertInstallment(installmentInfo,paymentOpt, function)
             }
         }
     }

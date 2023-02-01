@@ -1,4 +1,4 @@
-package dev.kkarot.installmentapp.ui.fragments
+package dev.kkarot.installmentapp.ui.fragments.info
 
 import android.os.Bundle
 import android.util.Log
@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -14,9 +13,9 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import dev.kkarot.installmentapp.R
+import dev.kkarot.installmentapp.databinding.FragmentHomeBinding
 import dev.kkarot.installmentapp.adapters.HomeAdapter
 import dev.kkarot.installmentapp.database.models.CustomerInfo
-import dev.kkarot.installmentapp.databinding.FragmentHomeBinding
 import dev.kkarot.installmentapp.viewmodels.SharedData
 import dev.kkarot.installmentapp.viewmodels.SharedDataBase
 import dev.kkarot.installmentapp.views.bottomsheets.CustomerBottomSheet
@@ -42,7 +41,7 @@ class HomeFragment : Fragment() {
         Log.d("---TAG", "onCreateView: ")
 
         binding.homeToolbar.setupWithNavController(findNavController())
-
+        sharedDataBase.onHome()
         sharedDataBase.infoLiveData.observe(viewLifecycleOwner) {
             customerList = it
             initRecView(customerList)
@@ -116,6 +115,7 @@ class HomeFragment : Fragment() {
     private val onDelete : (Int) ->Unit = { pos ->
         customerList.removeAt(pos)
         homeAdapter.remove(customerList,pos)
+
     }
 
 

@@ -12,16 +12,15 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        >
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/toolbar"
-            />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
     </com.google.android.material.appbar.AppBarLayout>
+
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -48,9 +47,9 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
-                android:maxLength="50"
                 android:layout_height="wrap_content"
-                android:inputType="text" />
+                android:inputType="text"
+                android:maxLength="50" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -68,8 +67,8 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLength="20"
-                android:inputType="phone" />
+                android:inputType="phone"
+                android:maxLength="20" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -86,9 +85,9 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLength="50"
+                android:inputType="text"
 
-                android:inputType="text" />
+                android:maxLength="50" />
         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -98,29 +97,37 @@
         android:id="@+id/materialDivider2"
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="5dp"
         app:dividerInsetEnd="8dp"
         app:dividerInsetStart="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/save_customer"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:text="@string/save"
+        app:icon="@drawable/save"
+        app:iconGravity="end"
+        app:layout_constraintEnd_toStartOf="@+id/addCustomer"
+        app:layout_constraintTop_toTopOf="@+id/addCustomer" />
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/addCustomer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:text="@string/add"
         android:layout_marginTop="5dp"
+        android:layout_marginEnd="8dp"
+        app:icon="@drawable/ic_baseline_add_24"
+        app:iconGravity="end"
+        android:text="@string/add"
         android:textAllCaps="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/materialDivider2" />
-
-
-
-
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

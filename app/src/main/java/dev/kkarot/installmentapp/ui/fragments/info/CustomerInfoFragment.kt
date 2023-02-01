@@ -87,8 +87,8 @@ class CustomerInfoFragment : Fragment() {
             layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
         }
     }
-    private val onClick:(Long) ->Unit = {installmentId ->
-        sharedData.setInstallmentId(installmentId)
+    private val onClick:(InstallmentInfo) ->Unit = {installmentInfo ->
+        sharedData.setInstallment(installmentInfo)
         CustomerInfoFragmentDirections.actionCustomerInfoFragmentToPaymentsFragment().let { direction ->
             findNavController().navigate(direction)
         }
@@ -98,11 +98,22 @@ class CustomerInfoFragment : Fragment() {
         sheet.show(childFragmentManager,InstallmentSheet.TAG)
     }
     private val onDelete:(InstallmentInfo,Int)->Unit = { info , pos ->
-        sharedDataBase.deleteInstallment(info){
-            instList.removeAt(pos)
-            installmentAdapter.remove(pos)
-            Toast.makeText(requireContext(), getString(R.string.delete_completed), Toast.LENGTH_SHORT).show()
-        }
+        val dialogBuilder = AlertDialog.Builder(requireContext())
+            .setTitle(getString(R.string.confirm_delete)+"\n\'" + info.installmentTitle+"\'")
+            .setMessage("Are you sure about that ?")
+            .setNegativeButton(getString(R.string.cancel)){dialog,_ ->
+                dialog.dismiss()
+            }
+            .setPositiveButton(getString(R.string.confirm)){ dialog, _->
+                sharedDataBase.deleteInstallment(info){
+                    instList.removeAt(pos)
+                    installmentAdapter.remove(pos)
+                    dialog.dismiss()
+                    Toast.makeText(requireContext(), getString(R.string.delete_completed), Toast.LENGTH_SHORT).show()
+                }
+            }
+        dialogBuilder.create().show()
+
     }
     private val onPaymentReceived:(InstallmentInfo)->Unit={info ->
         val dialogBinding:ReceivedDeialogBinding = ReceivedDeialogBinding.inflate(layoutInflater)

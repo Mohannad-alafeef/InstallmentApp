@@ -33,4 +33,25 @@
     <string name="delete_completed">Delete Complete</string>
     <string name="from_total">From Total</string>
     <string name="from_payments">From Payments</string>
+    <string name="confirm_delete">Confirm Delete</string>
+    <string name="confirm">Confirm</string>
+    <string name="settings">Settings</string>
+    <string name="analytics">Analytics</string>
+    <string name="tools">Tools</string>
+    <string name="search">Search</string>
+    <string name="saved_successfully">Saved successfully</string>
+    <string name="edit">Edit</string>
+    <string name="unreceived">Unreceived</string>
+    <string name="total">Total</string>
+    <string name="total_received">Total Received</string>
+    <string name="received_payments">Received Payments</string>
+    <string name="remaining">Remaining</string>
+    <string name="user_avatar">User Avatar</string>
+    <string name="phone">Phone</string>
+    <string name="address">Address</string>
+    <string name="installment_count">Installment count</string>
+    <string name="date">Date</string>
+    <string name="payments">Payments</string>
+    <string name="end">End</string>
+    <string name="start">Start</string>
 </resources>

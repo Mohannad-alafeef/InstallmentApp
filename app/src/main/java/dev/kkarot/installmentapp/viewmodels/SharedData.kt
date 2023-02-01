@@ -31,6 +31,7 @@ class SharedData:ViewModel() {
 
     fun setInstallment(info: InstallmentInfo){
         _selectedInstallment.value = info
+        setInstallmentId(info.installmentId)
     }
 
     fun setInstallmentId(id:Long){

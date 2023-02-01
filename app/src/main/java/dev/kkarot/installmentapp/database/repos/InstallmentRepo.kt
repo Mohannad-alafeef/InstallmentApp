@@ -26,14 +26,21 @@ class InstallmentRepo @Inject constructor(private val dao: InstallmentDao) {
             dao.deleteInstallment(id)
         }
 
-    suspend fun updateInstallment(id: Long, update: Int) = withContext(Dispatchers.IO){
-       val installment = dao.getInstallment(id)
-        installment.received +=update
+    suspend fun updateInstallment(id: Long, update: Int) = withContext(Dispatchers.IO) {
+        val installment = dao.getInstallment(id)
+        installment.received += update
         dao.updateInstallment(installment)
     }
+
     suspend fun updateInstallment(info: InstallmentInfo) = dao.updateInstallment(info)
+    suspend fun updateInstallment(id: Long, value: Float, i: Int) = withContext(Dispatchers.IO) {
+        val installment = dao.getInstallment(id)
+        installment.totalReceived+=(i*value)
+        installment.received += i
+        dao.updateInstallment(installment)
+        installment
 
-
+    }
 
 
 }

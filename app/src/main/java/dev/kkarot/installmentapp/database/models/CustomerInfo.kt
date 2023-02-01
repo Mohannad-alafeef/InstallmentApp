@@ -16,9 +16,9 @@ data class CustomerInfo(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "customerId")
     var customerId:Long,
-    @ColumnInfo(name = "customerName") var customerName:String,
-    @ColumnInfo(name = "customerPhone") var customerPhone:String,
-    @ColumnInfo(name = "customerAddress") var customerAddress:String,
+    @ColumnInfo(name = "customerName") var customerName:String = "",
+    @ColumnInfo(name = "customerPhone") var customerPhone:String = "",
+    @ColumnInfo(name = "customerAddress") var customerAddress:String = "",
     @ColumnInfo(name = "addDate")
-    var addDate: Date
+    var addDate: Date = Date()
 ): Parcelable

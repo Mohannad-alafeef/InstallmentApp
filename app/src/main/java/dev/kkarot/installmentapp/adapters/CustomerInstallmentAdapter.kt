@@ -11,7 +11,7 @@ import java.util.*
 class CustomerInstallmentAdapter(
     private var installmentList: List<InstallmentInfo>,
     val onLongClick: (InstallmentInfo, Int) -> Unit,
-    val onClick: (Long) -> Unit
+    val onClick: (InstallmentInfo) -> Unit
 ) :
     RecyclerView.Adapter<CustomerInstallmentAdapter.ItemHolder>() {
 
@@ -31,7 +31,10 @@ class CustomerInstallmentAdapter(
                     false
                 }
                 container.setOnClickListener {
-                    onClick.invoke(installmentList[p].installmentId)
+                    onClick.invoke(installmentList[p])
+                }
+                editInstallment.setOnClickListener {
+                    onLongClick.invoke(installmentList[p],p)
                 }
             }
         }

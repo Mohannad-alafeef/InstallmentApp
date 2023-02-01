@@ -46,7 +46,7 @@ android {
 def lifecycle_version = "2.5.1"
 def activity_version = "1.6.1"
 def fragment_version = "1.5.5"
-def room_version = "2.4.3"
+def room_version = '2.5.0'
 dependencies {
 
     implementation 'androidx.core:core-ktx:1.9.0'
@@ -60,8 +60,8 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
     //hilt
-    implementation("com.google.dagger:hilt-android:2.44")
-    kapt("com.google.dagger:hilt-android-compiler:2.44")
+    implementation('com.google.dagger:hilt-android:2.44.2')
+    kapt('com.google.dagger:hilt-android-compiler:2.44.2')
 
     // ViewModel
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
@@ -87,7 +87,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
 
     //gson
-    implementation 'com.google.code.gson:gson:2.9.0'
+    implementation 'com.google.code.gson:gson:2.10.1'
 
 
 
